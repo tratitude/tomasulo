@@ -1,0 +1,3409 @@
+
+Cycle 1
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1                              
+L.D F2, 40(R3)                                                   
+MUL.D F4, F2, F6                                                 
+DIV.D F8, F0, F4                                                 
+MUL.D F6, F6, F2                                                 
+DIV.D F10, F6, F4                                                
+S.D F10, 40(R3)                                                  
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                MUL1        No
+                MUL2        No
+
+Load
+      Time      Name      Busy      Address
+         2     LOAD1       Yes            8
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                           LOAD1                                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 2
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1                              
+L.D F2, 40(R3)                    2                              
+MUL.D F4, F2, F6                                                 
+DIV.D F8, F0, F4                                                 
+MUL.D F6, F6, F2                                                 
+DIV.D F10, F6, F4                                                
+S.D F10, 40(R3)                                                  
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                MUL1        No
+                MUL2        No
+
+Load
+      Time      Name      Busy      Address
+         1     LOAD1       Yes         8+16
+         2     LOAD2       Yes           40
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+           LOAD2           LOAD1                                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 3
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3               
+L.D F2, 40(R3)                    2                              
+MUL.D F4, F2, F6                  3                              
+DIV.D F8, F0, F4                                                 
+MUL.D F6, F6, F2                                                 
+DIV.D F10, F6, F4                                                
+S.D F10, 40(R3)                                                  
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                MUL1       Yes     MUL.D                                  LOAD2        LOAD1
+                MUL2        No
+
+Load
+      Time      Name      Busy      Address
+         0     LOAD1       Yes         8+16
+         1     LOAD2       Yes         40+0
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+           LOAD2    MUL1   LOAD1                                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 4
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4               
+MUL.D F4, F2, F6                  3                              
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                                                 
+DIV.D F10, F6, F4                                                
+S.D F10, 40(R3)                                                  
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                MUL1       Yes     MUL.D                  1.000000        LOAD2             
+                MUL2       Yes     DIV.D     1.000000                                   MUL1
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+         0     LOAD2       Yes         40+0
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+           LOAD2    MUL1            MUL2                                                                                        
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 5
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3                              
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                                                 
+DIV.D F10, F6, F4                                                
+S.D F10, 40(R3)                                                  
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        10      MUL1       Yes     MUL.D     1.000000     1.000000                          
+                MUL2       Yes     DIV.D     1.000000                                   MUL1
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                    MUL1            MUL2                                                                                        
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 6
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3                              
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                                                 
+DIV.D F10, F6, F4                                                
+S.D F10, 40(R3)                                                  
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         9      MUL1       Yes     MUL.D     1.000000     1.000000                          
+                MUL2       Yes     DIV.D     1.000000                                   MUL1
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                    MUL1            MUL2                                                                                        
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 7
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3                              
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                                                 
+DIV.D F10, F6, F4                                                
+S.D F10, 40(R3)                                                  
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         8      MUL1       Yes     MUL.D     1.000000     1.000000                          
+                MUL2       Yes     DIV.D     1.000000                                   MUL1
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                    MUL1            MUL2                                                                                        
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 8
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3                              
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                                                 
+DIV.D F10, F6, F4                                                
+S.D F10, 40(R3)                                                  
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         7      MUL1       Yes     MUL.D     1.000000     1.000000                          
+                MUL2       Yes     DIV.D     1.000000                                   MUL1
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                    MUL1            MUL2                                                                                        
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 9
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3                              
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                                                 
+DIV.D F10, F6, F4                                                
+S.D F10, 40(R3)                                                  
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         6      MUL1       Yes     MUL.D     1.000000     1.000000                          
+                MUL2       Yes     DIV.D     1.000000                                   MUL1
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                    MUL1            MUL2                                                                                        
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 10
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3                              
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                                                 
+DIV.D F10, F6, F4                                                
+S.D F10, 40(R3)                                                  
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         5      MUL1       Yes     MUL.D     1.000000     1.000000                          
+                MUL2       Yes     DIV.D     1.000000                                   MUL1
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                    MUL1            MUL2                                                                                        
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 11
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3                              
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                                                 
+DIV.D F10, F6, F4                                                
+S.D F10, 40(R3)                                                  
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         4      MUL1       Yes     MUL.D     1.000000     1.000000                          
+                MUL2       Yes     DIV.D     1.000000                                   MUL1
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                    MUL1            MUL2                                                                                        
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 12
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3                              
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                                                 
+DIV.D F10, F6, F4                                                
+S.D F10, 40(R3)                                                  
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         3      MUL1       Yes     MUL.D     1.000000     1.000000                          
+                MUL2       Yes     DIV.D     1.000000                                   MUL1
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                    MUL1            MUL2                                                                                        
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 13
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3                              
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                                                 
+DIV.D F10, F6, F4                                                
+S.D F10, 40(R3)                                                  
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         2      MUL1       Yes     MUL.D     1.000000     1.000000                          
+                MUL2       Yes     DIV.D     1.000000                                   MUL1
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                    MUL1            MUL2                                                                                        
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 14
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3                              
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                                                 
+DIV.D F10, F6, F4                                                
+S.D F10, 40(R3)                                                  
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         1      MUL1       Yes     MUL.D     1.000000     1.000000                          
+                MUL2       Yes     DIV.D     1.000000                                   MUL1
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                    MUL1            MUL2                                                                                        
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 15
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15               
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                                                 
+DIV.D F10, F6, F4                                                
+S.D F10, 40(R3)                                                  
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         0      MUL1       Yes     MUL.D     1.000000     1.000000                          
+                MUL2       Yes     DIV.D     1.000000                                   MUL1
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                    MUL1            MUL2                                                                                        
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 16
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                                                 
+DIV.D F10, F6, F4                                                
+S.D F10, 40(R3)                                                  
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                MUL1        No
+        40      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2                                                                                        
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 17
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17                              
+DIV.D F10, F6, F4                                                
+S.D F10, 40(R3)                                                  
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        10      MUL1       Yes     MUL.D     1.000000     1.000000                          
+        39      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                            MUL1    MUL2                                                                                        
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 18
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17                              
+DIV.D F10, F6, F4                                                
+S.D F10, 40(R3)                                                  
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         9      MUL1       Yes     MUL.D     1.000000     1.000000                          
+        38      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                            MUL1    MUL2                                                                                        
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 19
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17                              
+DIV.D F10, F6, F4                                                
+S.D F10, 40(R3)                                                  
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         8      MUL1       Yes     MUL.D     1.000000     1.000000                          
+        37      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                            MUL1    MUL2                                                                                        
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 20
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17                              
+DIV.D F10, F6, F4                                                
+S.D F10, 40(R3)                                                  
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         7      MUL1       Yes     MUL.D     1.000000     1.000000                          
+        36      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                            MUL1    MUL2                                                                                        
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 21
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17                              
+DIV.D F10, F6, F4                                                
+S.D F10, 40(R3)                                                  
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         6      MUL1       Yes     MUL.D     1.000000     1.000000                          
+        35      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                            MUL1    MUL2                                                                                        
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 22
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17                              
+DIV.D F10, F6, F4                                                
+S.D F10, 40(R3)                                                  
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         5      MUL1       Yes     MUL.D     1.000000     1.000000                          
+        34      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                            MUL1    MUL2                                                                                        
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 23
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17                              
+DIV.D F10, F6, F4                                                
+S.D F10, 40(R3)                                                  
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         4      MUL1       Yes     MUL.D     1.000000     1.000000                          
+        33      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                            MUL1    MUL2                                                                                        
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 24
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17                              
+DIV.D F10, F6, F4                                                
+S.D F10, 40(R3)                                                  
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         3      MUL1       Yes     MUL.D     1.000000     1.000000                          
+        32      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                            MUL1    MUL2                                                                                        
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 25
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17                              
+DIV.D F10, F6, F4                                                
+S.D F10, 40(R3)                                                  
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         2      MUL1       Yes     MUL.D     1.000000     1.000000                          
+        31      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                            MUL1    MUL2                                                                                        
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 26
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17                              
+DIV.D F10, F6, F4                                                
+S.D F10, 40(R3)                                                  
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         1      MUL1       Yes     MUL.D     1.000000     1.000000                          
+        30      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                            MUL1    MUL2                                                                                        
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 27
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17             27               
+DIV.D F10, F6, F4                                                
+S.D F10, 40(R3)                                                  
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         0      MUL1       Yes     MUL.D     1.000000     1.000000                          
+        29      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                            MUL1    MUL2                                                                                        
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 28
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                                                
+S.D F10, 40(R3)                                                  
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                MUL1        No
+        28      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2                                                                                        
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 29
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                                                  
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        40      MUL1       Yes     DIV.D     1.000000     1.000000                          
+        27      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2    MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 30
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30                              
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        39      MUL1       Yes     DIV.D     1.000000     1.000000                          
+        26      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         2    STORE1       Yes           40         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2    MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 31
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30                              
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        38      MUL1       Yes     DIV.D     1.000000     1.000000                          
+        25      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         1    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2    MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 32
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        37      MUL1       Yes     DIV.D     1.000000     1.000000                          
+        24      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2    MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 33
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        36      MUL1       Yes     DIV.D     1.000000     1.000000                          
+        23      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2    MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 34
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        35      MUL1       Yes     DIV.D     1.000000     1.000000                          
+        22      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2    MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 35
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        34      MUL1       Yes     DIV.D     1.000000     1.000000                          
+        21      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2    MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 36
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        33      MUL1       Yes     DIV.D     1.000000     1.000000                          
+        20      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2    MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 37
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        32      MUL1       Yes     DIV.D     1.000000     1.000000                          
+        19      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2    MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 38
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        31      MUL1       Yes     DIV.D     1.000000     1.000000                          
+        18      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2    MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 39
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        30      MUL1       Yes     DIV.D     1.000000     1.000000                          
+        17      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2    MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 40
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        29      MUL1       Yes     DIV.D     1.000000     1.000000                          
+        16      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2    MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 41
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        28      MUL1       Yes     DIV.D     1.000000     1.000000                          
+        15      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2    MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 42
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        27      MUL1       Yes     DIV.D     1.000000     1.000000                          
+        14      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2    MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 43
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        26      MUL1       Yes     DIV.D     1.000000     1.000000                          
+        13      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2    MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 44
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        25      MUL1       Yes     DIV.D     1.000000     1.000000                          
+        12      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2    MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 45
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        24      MUL1       Yes     DIV.D     1.000000     1.000000                          
+        11      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2    MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 46
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        23      MUL1       Yes     DIV.D     1.000000     1.000000                          
+        10      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2    MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 47
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        22      MUL1       Yes     DIV.D     1.000000     1.000000                          
+         9      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2    MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 48
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        21      MUL1       Yes     DIV.D     1.000000     1.000000                          
+         8      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2    MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 49
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        20      MUL1       Yes     DIV.D     1.000000     1.000000                          
+         7      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2    MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 50
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        19      MUL1       Yes     DIV.D     1.000000     1.000000                          
+         6      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2    MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 51
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        18      MUL1       Yes     DIV.D     1.000000     1.000000                          
+         5      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2    MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 52
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        17      MUL1       Yes     DIV.D     1.000000     1.000000                          
+         4      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2    MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 53
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        16      MUL1       Yes     DIV.D     1.000000     1.000000                          
+         3      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2    MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 54
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        15      MUL1       Yes     DIV.D     1.000000     1.000000                          
+         2      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2    MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 55
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4                              
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        14      MUL1       Yes     DIV.D     1.000000     1.000000                          
+         1      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2    MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 56
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4             56               
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        13      MUL1       Yes     DIV.D     1.000000     1.000000                          
+         0      MUL2       Yes     DIV.D     1.000000     1.000000                          
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                    MUL2    MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 57
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4             56             57
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        12      MUL1       Yes     DIV.D     1.000000     1.000000                          
+                MUL2        No
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                            MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 58
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4             56             57
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        11      MUL1       Yes     DIV.D     1.000000     1.000000                          
+                MUL2        No
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                            MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 59
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4             56             57
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+        10      MUL1       Yes     DIV.D     1.000000     1.000000                          
+                MUL2        No
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                            MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 60
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4             56             57
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         9      MUL1       Yes     DIV.D     1.000000     1.000000                          
+                MUL2        No
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                            MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 61
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4             56             57
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         8      MUL1       Yes     DIV.D     1.000000     1.000000                          
+                MUL2        No
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                            MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 62
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4             56             57
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         7      MUL1       Yes     DIV.D     1.000000     1.000000                          
+                MUL2        No
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                            MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 63
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4             56             57
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         6      MUL1       Yes     DIV.D     1.000000     1.000000                          
+                MUL2        No
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                            MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 64
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4             56             57
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         5      MUL1       Yes     DIV.D     1.000000     1.000000                          
+                MUL2        No
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                            MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 65
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4             56             57
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         4      MUL1       Yes     DIV.D     1.000000     1.000000                          
+                MUL2        No
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                            MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 66
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4             56             57
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         3      MUL1       Yes     DIV.D     1.000000     1.000000                          
+                MUL2        No
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                            MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 67
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4             56             57
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         2      MUL1       Yes     DIV.D     1.000000     1.000000                          
+                MUL2        No
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                            MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 68
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4             56             57
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29                              
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         1      MUL1       Yes     DIV.D     1.000000     1.000000                          
+                MUL2        No
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                            MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 69
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4             56             57
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29             69               
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+         0      MUL1       Yes     DIV.D     1.000000     1.000000                          
+                MUL2        No
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0         MUL1
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                            MUL1                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 70
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4             56             57
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29             69             70
+S.D F10, 40(R3)                  30             32               
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                MUL1        No
+                MUL2        No
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+         0    STORE1       Yes         40+0             
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                                                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
+Cycle 71
+
+Instruction:                  Issue      Exec_comp     Write_back
+L.D F6, 8(R2)                     1              3              4
+L.D F2, 40(R3)                    2              4              5
+MUL.D F4, F2, F6                  3             15             16
+DIV.D F8, F0, F4                  4             56             57
+MUL.D F6, F6, F2                 17             27             28
+DIV.D F10, F6, F4                29             69             70
+S.D F10, 40(R3)                  30             32             71
+
+ADD
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                ADD1        No
+                ADD2        No
+                ADD3        No
+
+MUL
+      Time      Name      Busy        Op           Vj           Vk           Qj           Qk
+                MUL1        No
+                MUL2        No
+
+Load
+      Time      Name      Busy      Address
+               LOAD1        No
+               LOAD2        No
+
+Store
+      Time      Name      Busy      Address           Fu
+              STORE1        No
+              STORE2        No
+
+Register Result Status
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+                                                                                                                                
+
+Floating Register Value
+      F0      F2      F4      F6      F8     F10     F12     F14     F16     F18     F20     F22     F24     F26     F28     F30
+       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1       1
+
+Integer Register(Unit : bytes)
+  R0  R1  R2  R3  R4  R5  R6  R7  R8  R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R23 R24 R25 R26 R27 R28 R29 R30 R31   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31
+   0  16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+
+Memory(Unit : bytes)
+       0       1       2       3       4       5       6       7
+       1       1       1       1       1       1       1       1
+-----------------------------------------------------------------------------------------------------------------------
