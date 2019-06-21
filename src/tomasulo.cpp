@@ -15,21 +15,16 @@ enum FuntionUnit{
     Adder0, Adder1, Adder2,
     Multiplier0, Multiplier1
 };
-
+/*
 enum Opcode{
     LD, SD, ADD, SUB, MUL, DIV
 };
-
-typedef struct{
-    string name;
-    int value;
-}Reg_t;
-
+*/
 typedef struct{
     string opcode;
-    Reg_t rs;
-    Reg_t rt;
-    Reg_t rd;
+    string rs;
+    string rt;
+    string rd;
     int offset;
     int Issue; //紀錄完成該步驟的迴圈
     int Execution;
@@ -37,20 +32,21 @@ typedef struct{
 } Instruction_t;
 
 typedef struct{
-    int busy;
-    int opcode;
+    bool busy;
+    string opcode;
     int FU; //記錄使用哪個function unit
     float Vj;
     float Vk;
     int Qi;
     int Qj;
     int Qk;
-    int A;
+    int A;  // how many cycles needed
 } ReservationStation_t;
 
 typedef struct{
-    int Qi;
-} RegisterStatus_t;
+    int fu;
+    double value;
+} Register_t;
 
 #define FU_N 9  // FuntionUnit number
 #define FR_N 16 // float point register number
@@ -63,13 +59,12 @@ typedef struct{
 #define DIV_C 40 // div cycle
 
 ReservationStation_t ReservationStation[FU_N];
-RegisterStatus_t FRegister[FR_N];
-RegisterStatus_t IRegister[IR_N];
+map<string, Register_t> Register;  // use to get function unit and register value from register string
 vector<Instruction_t> Instruction;
 map<uint64_t, int> Memory;
 //set<pair<string, int>> OpTable;  // use to translate between string and int
 //set<pair<string, int>> RegTable;
-map<string, int> RegValue;
+//map<string, int> RegValue;  // use to get register value from string
 int Clock = 0;
 /*
 void init_regtable()
@@ -137,14 +132,17 @@ string op_decode(int op)
     }
 }
 */
-void init_regvalue()
+void init_Register()
 {
     for (int i = 0; i < FR_N; i++)
     {
         string regstr("F");
         int regnum = i * 2;
         regstr += to_string(regnum);
-        RegValue.insert(make_pair(regstr, 1));
+        Register_t reg;
+        reg.fu = -1;
+        reg.value = regnum;
+        Register.insert(make_pair(regstr, reg));
     }
     for (int i = 0; i < IR_N; i++)
     {
@@ -155,10 +153,14 @@ void init_regvalue()
             regnum = 16;
         else
             regnum = 0;
-        RegValue.insert(make_pair(regstr, regnum));
+        Register_t reg;
+        reg.fu = -1;
+        reg.value = regnum;
+        Register.insert(make_pair(regstr, reg));
     }
 }
-void init_instruction(string filename)
+
+void init_Instruction(string filename)
 {
     string istr;
     ifstream ifile(filename, ifstream::in);
@@ -177,7 +179,7 @@ void init_instruction(string filename)
         {
             int rs; rsstr = "";
             iss >> rs >> rtstr;
-            in.rs.value = rs;
+            in.offset = rs;
             rtstr.erase(rtstr.begin());
             rtstr.erase(rtstr.size()-1);
         }
@@ -187,24 +189,93 @@ void init_instruction(string filename)
             rsstr.erase(rsstr.size()-1);
         }
         
-        in.opcode = opstr; in.rd.name = rdstr; in.rs.name = rsstr; in.rt.name = rtstr;
+        in.opcode = opstr; in.rd = rdstr; in.rs= rsstr; in.rt = rtstr;
         Instruction.push_back(in);
     }
     ifile.close();
 }
-void print_instruction()
+
+void print_Instruction()
 {
-    for(auto it = Instruction.begin(); it != Instruction.end(); it++)
+    for(auto &it: Instruction)
     {
-        cout << it->opcode << " " << it->rd.name << " ";
-        if(!it->opcode.compare("L.D") || !it->opcode.compare("S.D")){
-            cout << it->rs.value;
+        cout << it.opcode << " " << it.rd << " ";
+        if(!it.opcode.compare("L.D") || !it.opcode.compare("S.D")){
+            cout << it.offset;
         }
         else{
-            cout << it->rs.name;
+            cout << it.rs;
         }
-        cout << " " << it->rt.name << endl;
+        cout << " " << it.rt << endl;
     }
+}
+void init_ReservationStation()
+{
+    for(int i = 0; i < FU_N; i++){
+        ReservationStation[i].busy = false;
+    }
+}
+
+void store_ins_to_res(int fu, int pc)
+{
+    Instruction_t &ins = Instruction[pc];
+    ReservationStation_t &res = ReservationStation[fu];
+    ins.Issue = pc;
+
+    string op = ins.opcode;
+    res.busy = true;
+    res.opcode = op;
+    res.FU = fu;
+    if(op == "L.D"){
+        res.Vj = ins.offset; // ld or sd
+        res.A = LD_C;  // ld and sd have same cycle
+        // find rt whether has RAW hazard
+        if (Register[ins.rt].fu > 0) // hazard occur
+            res.Qk = Register[ins.rt].fu;
+        else
+            res.Vk = Register[ins.rt].value;
+    }
+    else if(op == "S.D"){
+        res.Vj = ins.offset; // ld or sd
+        res.A = SD_C;        // ld and sd have same cycle
+        // find rt whether has RAW hazard
+        if (Register[ins.rd].fu > 0) // hazard occur
+            res.Qi = Register[ins.rd].fu;
+        else
+            res.Qi = Register[ins.rd].value;
+    }
+    else{
+        /* map find method
+        // find rs whether has RAW hazard
+        auto rs = Register.find(ins.rs);
+        if (rs == Register.end())
+            cout << op << " issue rs not found" << endl;
+        if(rs->second.fu > 0)  // hazard occur
+            res.Qj = rs->second.fu;
+        else
+            res.Vj = rs->second.fu;
+        // find rt whether has RAW hazard
+        auto rt = Register.find(ins.rt);
+        if (rt == Register.end())
+            cout << op << " issue rs not found" << endl;
+        if (rt->second.fu > 0) // hazard occur
+            res.Qk = rt->second.fu;
+        else
+            res.Vk = rt->second.fu;
+        */
+        // find rs whether has RAW hazard
+        if (Register[ins.rs].fu > 0) // hazard occur
+            res.Qj = Register[ins.rs].fu;
+        else
+            res.Vj = Register[ins.rs].value;
+        // find rt whether has RAW hazard
+        if (Register[ins.rt].fu > 0) // hazard occur
+            res.Qk = Register[ins.rt].fu;
+        else
+            res.Vk = Register[ins.rt].value;
+    }
+    // update register function unit
+    Register[ins.rd].fu = fu;
 }
 // if nothing to write result, return true
 bool WriteResult()
@@ -214,12 +285,51 @@ bool WriteResult()
 // if nothing to execute, return true
 bool Execute()
 {
+    // ld or sd
+    for(int i = LoadBuffer0; i <= StoreBuffer1; i++){
 
+    }
 }
 // if nothing to issue, return true
 bool Issue()
 {
-
+    static int pc = 0;
+    bool issued = true;
+    if(Instruction[pc].opcode == "L.D"){
+        if(!ReservationStation[LoadBuffer0].busy)
+            store_ins_to_res(LoadBuffer0, pc);
+        else if(!ReservationStation[LoadBuffer1].busy)
+            store_ins_to_res(LoadBuffer1, pc);
+        else
+            issued = false;
+    }
+    else if(Instruction[pc].opcode == "S.D"){
+        if(!ReservationStation[StoreBuffer0].busy)
+            store_ins_to_res(StoreBuffer0, pc);
+        else if (!ReservationStation[StoreBuffer1].busy)
+            store_ins_to_res(StoreBuffer1, pc);
+        else
+            issued = false;
+    }
+    else if(Instruction[pc].opcode == "ADD.D"){
+        if(!ReservationStation[Adder0].busy)
+            store_ins_to_res(Adder0, pc);
+        else if (!ReservationStation[Adder1].busy)
+            store_ins_to_res(Adder1, pc);
+        else if (!ReservationStation[Adder2].busy)
+            store_ins_to_res(Adder2, pc);
+        else
+            issued = false;
+    }
+    else if(Instruction[pc].opcode == "MUL.D"){
+        if(!ReservationStation[Multiplier0].busy)
+            store_ins_to_res(Multiplier0, pc);
+        else if (!ReservationStation[Multiplier1].busy)
+            store_ins_to_res(Multiplier1, pc);
+        else
+            issued = false;
+    }
+    return !issued;
 }
 int main()
 {
@@ -227,9 +337,10 @@ int main()
     //init_regtable();
     //init_optable();
     string filename = ".\\doc\\test2";
-    init_instruction(filename);
-    init_regvalue();
-    //print_instruction();
+    init_Instruction(filename);
+    init_Register();
+    print_Instruction();
+    init_ReservationStation();
     //何時離開主迴圈? WriteResult()、Execute()、Issue()皆無推進任何一個執令，或是struct Instruction中的Issue、Execution、Write皆非原初始值。
     while (1)
     {

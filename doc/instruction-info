@@ -21,6 +21,9 @@ issue:
     else
         check hazard, if yes, put into reservation station
 execute:
-    check rs, rt to execute
+    if LD, SD
+        decrease the cycle counter Res.A
+    else
+        check Res of rs, rt to execute
 writeresult:
     check rd to write
