@@ -4,7 +4,7 @@ two load buffers
 two store buffers
 
 L.D   2
-S.D.  2
+S.D  2
 ADD.D 2
 SUB.D 2
 MUL.D 10
@@ -13,4 +13,14 @@ DIV.D 40
 F0、F2、F4、…、F30 (16 float point registers, init value: = 1)
 R0、R1、…、R31 (32 integer registers, init value: R1 = 16, else =0)
 
-Memory 64 bytes
+Memory 64 bytes (init value: = 1)
+
+issue:
+    if LD, SD
+        check loadbuffer, storebuffer
+    else
+        check hazard, if yes, put into reservation station
+execute:
+    check rs, rt to execute
+writeresult:
+    check rd to write
