@@ -4,7 +4,7 @@ two load buffers
 two store buffers
 
 L.D   2
-S.D  2
+S.D   1
 ADD.D 2
 SUB.D 2
 MUL.D 10
