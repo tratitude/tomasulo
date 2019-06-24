@@ -16,11 +16,6 @@ enum FuntionUnit : int{
     Adder0, Adder1, Adder2,
     Multiplier0, Multiplier1
 };
-/*
-enum Opcode{
-    LD, SD, ADD, SUB, MUL, DIV
-};
-*/
 typedef struct{
     string opcode;
     string rs;
@@ -425,24 +420,6 @@ void store_ins_to_res(int fu)
             res.Qk = Register[ins.rt].fu;
     }
     else{
-        /* map find method
-        // find rs whether has RAW hazard
-        auto rs = Register.find(ins.rs);
-        if (rs == Register.end())
-            cout << op << " issue rs not found" << endl;
-        if(rs->second.fu > 0)  // hazard occur
-            res.Qj = rs->second.fu;
-        else
-            res.Vj = rs->second.fu;
-        // find rt whether has RAW hazard
-        auto rt = Register.find(ins.rt);
-        if (rt == Register.end())
-            cout << op << " issue rs not found" << endl;
-        if (rt->second.fu > 0) // hazard occur
-            res.Qk = rt->second.fu;
-        else
-            res.Vk = rt->second.fu;
-        */
        res.cycle = Cycle[res.opcode];
         // find rd whether has WAW hazard
         if (Register[ins.rd].fu >= 0) // hazard occur
@@ -512,8 +489,6 @@ bool Issue()
 int main(int argc, char *argv[])
 {
     //初始化各個結構
-    //init_regtable();
-    //init_optable();
     string filename(argv[1]);
     string inputfile = ".\\doc\\" + filename;
     string outputfile = inputfile + "_output.txt";
