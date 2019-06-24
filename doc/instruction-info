@@ -27,3 +27,4 @@ execute:
         check Res of rs, rt to execute
 writeresult:
     check rd to write
+    if write successed, update reg.value, set reg.fu=-1, init_res 

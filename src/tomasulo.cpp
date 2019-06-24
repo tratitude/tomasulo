@@ -42,7 +42,7 @@ typedef struct{
     int Qj; // if not used, set as -1
     int Qk; // if not used, set as -1
     int cycle;  // how many cycles needed, init as -1
-    Instruction_t &ins;
+    Instruction_t *ins;
 } ReservationStation_t;
 
 typedef struct{
@@ -64,7 +64,8 @@ ReservationStation_t ReservationStation[FU_N];
 map<string, Register_t> Register;  // use to get function unit and register value from register string
 vector<Instruction_t> Instruction;
 map<uint64_t, int> Memory;
-map<string, int> Cycle;
+map<string, int> Cycle{{"L.D", LD_C}, {"S.D", SD_C}, {"ADD.D", ADD_C}, 
+    {"SUB.D", SUB_C}, {"MUL.D", MUL_C}, {"DIV.D", DIV_C}};
 //set<pair<string, int>> OpTable;  // use to translate between string and int
 //set<pair<string, int>> RegTable;
 //map<string, int> RegValue;  // use to get register value from string
@@ -161,7 +162,7 @@ void init_Register()
 }
 /*
 ld rd, offset(rt)
-sd rt, offset(rd)
+sd rd, offset(rt)
 add rd, rs, rt
  */
 void init_Instruction(string filename)
@@ -207,7 +208,6 @@ void init_Instruction(string filename)
     }
     ifile.close();
 }
-
 void print_Instruction()
 {
     for(auto &it: Instruction)
@@ -222,16 +222,6 @@ void print_Instruction()
         cout << " " << it.rt << endl;
     }
 }
-void init_ReservationStation()
-{
-    for(int i = 0; i < FU_N; i++){
-        ReservationStation[i].busy = false;
-        ReservationStation[i].cycle = -1;
-        ReservationStation[i].Qi = -1;
-        ReservationStation[i].Qj = -1;
-        ReservationStation[i].Qk = -1;
-    }
-}
 void init_ReservationStation(int fu)
 {
     ReservationStation[fu].busy = false;
@@ -240,14 +230,103 @@ void init_ReservationStation(int fu)
     ReservationStation[fu].Qj = -1;
     ReservationStation[fu].Qk = -1;
 }
-void init_Cycle()
+void init_ReservationStation()
 {
-    Cycle.insert(make_pair("L.D", LD_C));
-    Cycle.insert(make_pair("S.D", SD_C));
-    Cycle.insert(make_pair("ADD.D", ADD_C));
-    Cycle.insert(make_pair("SUB.D", SUB_C));
-    Cycle.insert(make_pair("MUL.D", MUL_C));
-    Cycle.insert(make_pair("DIV.D", DIV_C));
+    for(int i = 0; i < FU_N; i++){
+        init_ReservationStation(i);
+    }
+}
+float execute_operation(string op, float rs, float rt)
+{
+    if(op == "L.D" || op == "S.D" || op == "ADD.D")
+        return rs + rt;
+    else if(op == "SUB.D")
+        return rs - rt;
+    else if(op == "MUL.D")
+        return rs * rt;
+    else
+        return rs / rt;
+}
+// if nothing to write result, return true
+bool WriteResult()
+{
+    bool wrote = false;
+    for(int i = LoadBuffer0; i <= Multiplier1; i++){
+        ReservationStation_t &res = ReservationStation[i];
+        Register_t & rdreg = Register[res.ins->rd];
+        if(res.cycle == 0 && res.Qi >= 0 && rdreg.fu != i){
+            // write result
+            if(i == LoadBuffer0 || i == LoadBuffer1){
+                int value = 1;
+                auto it = Memory.find((uint64_t)res.Vi);
+                if (it != Memory.end())
+                    value = it->second;
+                rdreg.value = value;
+            }
+            else if(i == StoreBuffer0 || i == StoreBuffer1)
+                Memory[(uint64_t)res.Vi] = rdreg.value;
+            else
+                rdreg.value = res.Vi;
+            rdreg.fu = -1;
+            init_ReservationStation(i);
+            wrote = true;
+        }
+    }
+    return !wrote;
+}
+// if nothing to execute, return true
+bool Execute()
+{
+    bool executed = false;  // if executed set as true
+    // ld or sd
+    for(int i = LoadBuffer0; i <= StoreBuffer1; i++){
+        ReservationStation_t &res = ReservationStation[i];
+        switch(res.cycle){
+            // put rt value into res
+            case 2:
+                res.Vk = Register[res.ins->rt].value;
+                --res.cycle;
+                executed = true;
+                break;
+            // execute
+            case 1:
+                res.Vi = execute_operation(res.opcode, res.Vj, res.Vk);
+                --res.cycle;
+                res.ins->Execution = Clock;
+                executed = true;
+                break;
+        }
+    }
+    for(int i = Adder0; i <= Multiplier1; i++){
+        ReservationStation_t &res = ReservationStation[i];
+        switch(res.cycle){
+            // rs or rt is not ready
+            case -1:
+                if(res.Qj >= 0 && Register[res.ins->rs].fu != i){
+                    res.Vj = Register[res.ins->rs].value;
+                    res.Qj = -1;
+                }
+                    
+                if(res.Qk >= 0 && Register[res.ins->rt].fu != i){
+                    res.Vk = Register[res.ins->rt].value;
+                    res.Qk = -1;
+                }
+                if(res.Qj == -1 && res.Qk == -1){
+                    res.cycle = Cycle[res.opcode];
+                    executed = true;
+                }
+                break;
+            case 0:
+                res.Vi = execute_operation(res.opcode, res.Vj, res.Vk);
+                res.ins->Execution = Clock;
+                executed = true;
+                break;
+            default:
+                --res.cycle;
+                executed = true;
+        }
+    }
+    return !executed;
 }
 void store_ins_to_res(int fu)
 {
@@ -258,10 +337,11 @@ void store_ins_to_res(int fu)
     string op = ins.opcode;
     res.busy = true;
     res.opcode = op;
-    res.ins = ins;
-    if(op == "L.D" || op == "S.D"){
+    res.ins = &ins;
+    if (op == "L.D" || op == "S.D")
+    {
         res.Vj = ins.offset; // ld or sd
-        res.cycle = LD_C;  // ld and sd have same cycle
+        res.cycle = LD_C;    // ld and sd have same cycle
         // find rd whether has WAW hazard
         if (Register[ins.rd].fu >= 0) // hazard occur
             res.Qi = Register[ins.rd].fu;
@@ -271,7 +351,8 @@ void store_ins_to_res(int fu)
         else
             res.Vk = Register[ins.rt].value;
     }
-    else{
+    else
+    {
         /* map find method
         // find rs whether has RAW hazard
         auto rs = Register.find(ins.rs);
@@ -306,65 +387,6 @@ void store_ins_to_res(int fu)
     }
     // update register function unit
     Register[ins.rd].fu = fu;
-}
-// if nothing to write result, return true
-bool WriteResult()
-{
-    bool wrote = false;
-
-}
-// if nothing to execute, return true
-bool Execute()
-{
-    bool executed = false;  // if executed set as true
-    // ld or sd
-    for(int i = LoadBuffer0; i <= StoreBuffer1; i++){
-        ReservationStation_t &res = ReservationStation[i];
-        switch(res.cycle){
-            // put rt value into res
-            case 2:
-                res.Vk = Register[res.ins.rt].value;
-                --res.cycle;
-                executed = true;
-                break;
-            // execute
-            case 1:
-                res.Vi = res.Vj + res.Vk;
-                --res.cycle;
-                res.ins.Execution = Clock;
-                executed = true;
-                break;
-        }
-    }
-    for(int i = Adder0; i <= Multiplier1; i++){
-        ReservationStation_t &res = ReservationStation[i];
-        switch(res.cycle){
-            // rs or rt is not ready
-            case -1:
-                if(res.Qj >= 0 && Register[res.ins.rs].fu != i){
-                    res.Vj = Register[res.ins.rs].value;
-                    res.Qj = -1;
-                }
-                    
-                if(res.Qk >= 0 && Register[res.ins.rt].fu != i){
-                    res.Vk = Register[res.ins.rt].value;
-                    res.Qk = -1;
-                }
-                if(res.Qj == -1 && res.Qk == -1){
-                    res.cycle = Cycle[res.opcode];
-                    executed = true;
-                }
-                break;
-            case 0:
-                res.ins.Execution = Clock;
-                executed = true;
-                break;
-            default:
-                --res.cycle;
-                executed = true;
-        }
-    }
-    return !executed;
 }
 // if nothing to issue, return true
 bool Issue()
@@ -414,7 +436,6 @@ int main()
     string filename = ".\\doc\\test2";
     init_Instruction(filename);
     print_Instruction();
-    init_Cycle();
     init_Register();
     init_ReservationStation();
     //何時離開主迴圈? WriteResult()、Execute()、Issue()皆無推進任何一個執令，或是struct Instruction中的Issue、Execution、Write皆非原初始值。
