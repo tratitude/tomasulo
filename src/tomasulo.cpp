@@ -253,7 +253,10 @@ bool WriteResult()
     bool wrote = false;
     for(int i = LoadBuffer0; i <= Multiplier1; i++){
         ReservationStation_t &res = ReservationStation[i];
-        Register_t & rdreg = Register[res.ins->rd];
+        // check
+        if(res.ins == NULL)
+            break;
+        Register_t &rdreg = Register[res.ins->rd];
         if(res.cycle == 0 && res.Qi >= 0 && rdreg.fu != i){
             // write result
             if(i == LoadBuffer0 || i == LoadBuffer1){
@@ -281,6 +284,8 @@ bool Execute()
     // ld or sd
     for(int i = LoadBuffer0; i <= StoreBuffer1; i++){
         ReservationStation_t &res = ReservationStation[i];
+        if(res.ins == NULL)
+            break;
         switch(res.cycle){
             // put rt value into res
             case 2:
@@ -299,6 +304,8 @@ bool Execute()
     }
     for(int i = Adder0; i <= Multiplier1; i++){
         ReservationStation_t &res = ReservationStation[i];
+        if (res.ins == NULL)
+            break;
         switch(res.cycle){
             // rs or rt is not ready
             case -1:
