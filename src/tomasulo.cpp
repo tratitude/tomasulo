@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <map>
 #include <set>
+#include <iomanip>
 
 using namespace std;
 
@@ -170,7 +171,7 @@ void init_Instruction(string filename)
     string istr;
     ifstream ifile(filename, ifstream::in);
     if(!ifile){
-        cout << "file open failed" << endl;
+        cout << "input file open failed" << endl;
     }
     while (getline(ifile, istr))
     {
@@ -208,19 +209,93 @@ void init_Instruction(string filename)
     }
     ifile.close();
 }
-void print_Instruction()
+void print(string filename)
 {
-    for(auto &it: Instruction)
-    {
-        cout << it.opcode << " " << it.rd << " ";
-        if(!it.opcode.compare("L.D") || !it.opcode.compare("S.D")){
-            cout << it.offset;
-        }
-        else{
-            cout << it.rs;
-        }
-        cout << " " << it.rt << endl;
+    ofstream ofile(filename, ifstream::app);
+    if(!ofile){
+        cout << "output file open failed" << endl;
     }
+    ofile.setf(ios::left);
+    ofile << "Cycle " << Clock << endl << endl;
+    ofile << setw(30) << "Instruction:" << setw(10) << "Issue" << setw(15) << "Exec_comp" << setw(15) << "Write_back" << endl;
+    // print Instruction
+    for(auto &it :Instruction){
+        ofile << setw(7) << it.opcode << setw(5) << it.rd << setw(5) << it.rs << setw(13) << it.rt
+              << setw(10) << it.Issue << setw(15) << it.Execution << setw(15) << it.Write << endl;
+    }
+    // print function unit
+    ofile << endl;
+    ofile << setw(7) << "Time" << setw(7) << "Name" << setw(7) << "Busy" << setw(7) << "Op" << setw(7) << "Vj" << setw(7) << "Vk" << setw(7) << "Qj" << setw(7) << "Qk" << endl;
+    for(int i = Adder0; i <= Adder2; i++){
+        ReservationStation_t &res = ReservationStation[i];
+        ofile << setw(7) << res.cycle << setw(7) << "ADD" + to_string(i-Adder0+1) << setw(7) << to_string(ReservationStation[i].busy) << setw(7) << 
+            res.opcode << setw(10) << res.Vj << setw(10) << res.Vk << setw(7) << res.Qj << setw(7) << res.Qk << endl;
+    }
+    ofile << endl;
+    for(int i = Multiplier0; i <= Multiplier1; i++){
+        ReservationStation_t &res = ReservationStation[i];
+        ofile << setw(7) << res.cycle << setw(7) << "MUL" + to_string(i-Multiplier0+1) << setw(7) << to_string(ReservationStation[i].busy) << setw(7) << 
+            res.opcode << setw(10) << res.Vj << setw(10) << res.Vk << setw(7) << res.Qj << setw(7) << res.Qk << endl;
+    }
+    ofile << endl;
+    for(int i = LoadBuffer0; i <= LoadBuffer1; i++){
+        ReservationStation_t &res = ReservationStation[i];
+        ofile << setw(7) << res.cycle << setw(7) << "LOAD" + to_string(i-LoadBuffer0+1) << setw(7) << to_string(ReservationStation[i].busy) << setw(7) << 
+            res.opcode << setw(10) << res.Vj << setw(10) << res.Vk << setw(7) << res.Qj << setw(7) << res.Qk << endl;
+    }
+    ofile << endl;
+    for(int i = StoreBuffer0; i <= StoreBuffer1; i++){
+        ReservationStation_t &res = ReservationStation[i];
+        ofile << setw(7) << res.cycle << setw(7) << "STORE" + to_string(i-StoreBuffer0+1) << setw(7) << to_string(ReservationStation[i].busy) << setw(7) << 
+            res.opcode << setw(10) << res.Vj << setw(10) << res.Vk << setw(7) << res.Qj << setw(7) << res.Qk << endl;
+    }
+    ofile << endl << "Register Result Status" << endl;
+    for(auto &it :Register){
+        string f(it.first);
+        char c = f[0];
+        char tmp = 'F';
+        if(c == tmp)
+            ofile << setw(10) << it.first;
+    }
+    ofile << endl;
+    for(auto &it :Register){
+        string f(it.first);
+        char c = f[0];
+        char tmp = 'F';
+        if(c == tmp)
+            ofile << setw(10) << it.second.fu;
+    }
+    ofile << endl;
+    for(auto &it :Register){
+        string f(it.first);
+        char c = f[0];
+        char tmp = 'F';
+        if(c == tmp)
+            ofile << setw(10) << it.second.value;
+    }
+    ofile << endl << endl << "Integer Register" << endl;
+    for(auto &it :Register){
+        string f(it.first);
+        char c = f[0];
+        char tmp = 'R';
+        if(c == tmp)
+            ofile << setw(5) << it.first;
+    }
+    ofile << endl;
+    for(auto &it :Register){
+        string f(it.first);
+        char c = f[0];
+        char tmp = 'R';
+        if(c == tmp)
+            ofile << setw(5) << it.second.value;
+    }
+    ofile << endl << endl << "Memory" << endl;
+    for(auto &it :Memory)
+        ofile << setw(10) << it.first;
+    ofile << endl;
+    for(auto &it :Memory)
+        ofile << setw(10) << it.second;
+    ofile.close();
 }
 void init_ReservationStation(int fu)
 {
@@ -229,6 +304,7 @@ void init_ReservationStation(int fu)
     ReservationStation[fu].Qi = -1;
     ReservationStation[fu].Qj = -1;
     ReservationStation[fu].Qk = -1;
+    ReservationStation[fu].ins = NULL;
 }
 void init_ReservationStation()
 {
@@ -440,9 +516,9 @@ int main()
     //初始化各個結構
     //init_regtable();
     //init_optable();
-    string filename = ".\\doc\\test2";
-    init_Instruction(filename);
-    print_Instruction();
+    string inputfile = ".\\doc\\test2";
+    string outputfile = inputfile + "_output.txt";
+    init_Instruction(inputfile);
     init_Register();
     init_ReservationStation();
     //何時離開主迴圈? WriteResult()、Execute()、Issue()皆無推進任何一個執令，或是struct Instruction中的Issue、Execution、Write皆非原初始值。
@@ -454,6 +530,7 @@ int main()
         finished &= Issue();       //issue下一個未被issue的指令
         if(finished)
             break;
+        print(outputfile);
         Clock++;
     }
     
