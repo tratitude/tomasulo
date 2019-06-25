@@ -25,6 +25,7 @@ typedef struct{
     int Issue; //紀錄完成該步驟的迴圈
     int Execution;
     int Write;
+    int line;
 } Instruction_t;
 
 typedef struct{
@@ -40,6 +41,9 @@ typedef struct{
     int cycle;  // how many cycles needed, init as -1
     Instruction_t *ins;
     bool last_writeback;
+    int qi;
+    int qj;
+    int qk;
 } ReservationStation_t;
 
 typedef struct{
@@ -100,6 +104,7 @@ add rd, rs, rt
 void init_Instruction(string filename)
 {
     string istr;
+    int line = 0;
     ifstream ifile(filename, ifstream::in);
     if(!ifile){
         cout << "input file open failed" << endl;
@@ -137,7 +142,9 @@ void init_Instruction(string filename)
         
         in.opcode = opstr; in.rd = rdstr; in.rs= rsstr; in.rt = rtstr;
         in.Issue = -1; in.Execution = -1; in.Write = -1;
+        in.line = line;
         Instruction.push_back(in);
+        ++line;
     }
     ifile.close();
 }
@@ -239,12 +246,12 @@ void print(string filename)
 }
 void init_ReservationStation(int fu)
 {
-    ReservationStation[fu] = {false, "", -1, -1, -1, -1, -1, -1, -1, NULL, true};
+    ReservationStation[fu] = {false, "", -1, -1, -1, -1, -1, -1, -1, NULL, true, -1, -1, -1};
 }
 void init_ReservationStation()
 {
     for(int i = 0; i < FU_N; i++){
-        ReservationStation[i] = {false, "", -1, -1, -1, -1, -1, -1, -1, NULL, false};
+        ReservationStation[i] = {false, "", -1, -1, -1, -1, -1, -1, -1, NULL, false, -1, -1, -1};
     }
 }
 float execute_operation(string op, float rs, float rt)
@@ -269,7 +276,7 @@ bool WriteResult()
             continue;
         if(res.opcode == "S.D"){
             Register_t &rdreg = Register[res.ins->rt];
-            if(res.cycle == 0 && rdreg.fu != res.Qk){
+            if(res.cycle == 0 && (res.qk == -1 || Instruction[res.qk].Write > 0)){
                 // write result
                 Memory[(uint64_t)res.Vi] = rdreg.value;
                 res.ins->Write = Clock;
@@ -281,7 +288,7 @@ bool WriteResult()
         }
         else{
             Register_t &rdreg = Register[res.ins->rd];
-            if(res.cycle == 0 && rdreg.fu != res.Qi){
+            if(res.cycle == 0 && (res.qi == -1 || Instruction[res.qi].Write > 0)){
                 // write result
                 if(i == LoadBuffer0 || i == LoadBuffer1){
                     int value = 1;
@@ -399,8 +406,10 @@ void store_ins_to_res(int fu)
         res.Vj = ins.offset; // ld or sd
         res.cycle = LD_C;    // ld and sd have same cycle
         // find rd whether has WAW hazard, but not consider sd's hazard
-        if (Register[ins.rd].fu >= 0) // hazard occur
+        if (Register[ins.rd].fu >= 0){ // hazard occur
             res.Qi = Register[ins.rd].fu;
+            res.qi = ReservationStation[res.Qi].ins->line;
+        }
         // find rt whether has RAW hazard, but not consider sd's hazard
         if (Register[ins.rt].fu >= 0){  // hazard occur
             res.Qk = Register[ins.rt].fu;
@@ -416,14 +425,18 @@ void store_ins_to_res(int fu)
             res.Qi = Register[ins.rd].fu;
         */
         // find rt whether has RAW hazard, but not consider sd's hazard
-        if (Register[ins.rt].fu >= 0)  // hazard occur
+        if (Register[ins.rt].fu >= 0){  // hazard occur
             res.Qk = Register[ins.rt].fu;
+            res.qk = ReservationStation[res.Qk].ins->line;
+        }
     }
     else{
        res.cycle = Cycle[res.opcode];
         // find rd whether has WAW hazard
-        if (Register[ins.rd].fu >= 0) // hazard occur
+        if (Register[ins.rd].fu >= 0){ // hazard occur
             res.Qi = Register[ins.rd].fu;
+            res.qi = ReservationStation[res.Qi].ins->line;
+        }
         // find rs whether has RAW hazard
         if (Register[ins.rs].fu >= 0){ // hazard occur
             res.Qj = Register[ins.rs].fu;
