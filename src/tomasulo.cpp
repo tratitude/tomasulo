@@ -321,7 +321,7 @@ bool Execute()
         switch(res.cycle){
             // RAW hazard
             case -1:
-                if(res.Qk >=0 && Register[res.ins->rt].fu != res.Qk){
+                if(res.Qk >=0 && Instruction[res.qk].Write > 0 && res.ins->Execution < 0){
                     res.Vk = Register[res.ins->rt].value;
                     res.Qk = -1;
                     res.cycle = LD_C;
@@ -366,15 +366,15 @@ bool Execute()
         switch(res.cycle){
             // rs or rt is not ready
             case -1:
-                if(res.Qj >= 0 && Register[res.ins->rs].fu != res.Qj){
+                if(res.Qj >= 0 && Instruction[res.qj].Write > 0 && res.ins->Execution < 0){
                     res.Vj = Register[res.ins->rs].value;
                     res.Qj = -1;
                 }
-                if(res.Qk >= 0 && Register[res.ins->rt].fu != res.Qk){
+                if(res.Qk >= 0 && Instruction[res.qk].Write > 0 && res.ins->Execution < 0){
                     res.Vk = Register[res.ins->rt].value;
                     res.Qk = -1;
                 }
-                if(res.Qj == -1 && res.Qk == -1){
+                if(res.Qj == -1 && res.Qk == -1 && res.ins->Execution < 0){
                     res.cycle = Cycle[res.opcode];
                     executed = true;
                 }
@@ -384,6 +384,8 @@ bool Execute()
                 res.ins->Execution = Clock;
                 --res.cycle;
                 executed = true;
+                break;
+            case 0:
                 break;
             default:
                 --res.cycle;
@@ -440,6 +442,7 @@ void store_ins_to_res(int fu)
         // find rs whether has RAW hazard
         if (Register[ins.rs].fu >= 0){ // hazard occur
             res.Qj = Register[ins.rs].fu;
+            res.qj = ReservationStation[res.Qj].ins->line;
             res.cycle = -1;
         }
         else
@@ -447,6 +450,7 @@ void store_ins_to_res(int fu)
         // find rt whether has RAW hazard
         if (Register[ins.rt].fu >= 0){ // hazard occur
             res.Qk = Register[ins.rt].fu;
+            res.qk = ReservationStation[res.Qk].ins->line;
             res.cycle = -1;
         }
         else
