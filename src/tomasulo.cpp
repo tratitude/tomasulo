@@ -288,7 +288,7 @@ bool WriteResult()
         }
         else{
             Register_t &rdreg = Register[res.ins->rd];
-            if(res.cycle == 0 && (res.qi == -1 || Instruction[res.qi].Write > 0)){
+            if(res.cycle == 0){
                 // write result
                 if(i == LoadBuffer0 || i == LoadBuffer1){
                     int value = 1;
